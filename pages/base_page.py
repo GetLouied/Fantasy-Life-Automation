@@ -1,26 +1,27 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import ChromeOptions
-from selenium.webdriver.firefox.options import FirefoxOptions
-from selenium.webdriver.edge.options import EdgeOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.edge.options import Options as EdgeOptions
 from selenium.webdriver import Chrome, Firefox, Edge, Safari
 from selenium.common.exceptions import TimeoutException
 
-class BagePage:
+class BasePage:
+    def __init__(self, driver):
+        self.driver = driver
 
-    @staticmethod
-    def find_element(driver, *locator):
-        wait = WebDriverWait(driver, 10)
+
+    def find_element(self, *locator):
+        wait = WebDriverWait(self.driver, 10)
         try:
             return wait.until(EC.visibility_of_element_located(locator))
         except TimeoutException:
             print(f'Element with locator {locator} not found within timelimit')
             return None
-    
-    @staticmethod
-    def find_elements(driver, *locator):
-        wait = WebDriverWait(driver, 10)
+
+    def find_elements(self, *locator):
+        wait = WebDriverWait(self.driver, 10)
         try:
             return wait.until(EC.visibility_of_all_elements_located(locator))
         except TimeoutException:
