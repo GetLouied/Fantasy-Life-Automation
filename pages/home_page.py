@@ -28,13 +28,8 @@ class HomePage(BasePage):
         subscribe_button.click()
         time.sleep(2)
 
-    def click_link(self, link_selector):
-        link = self.find_element(link_selector)
-        link.click()
-
     def get_confirmation_message(self):
         return self.find_element(*self.SUBSCRIBE_CONFIRMATION).text
-
         
     def check_for_validation_error(self):
         email_input = self.find_element(*self.SUBSCRIBE_EMAIL_INPUT)
@@ -65,7 +60,6 @@ if __name__ == "__main__":
     driver.back()
     home_page.click_to_login_page()
     driver.back()
-    home_page.click_link((By.CSS_SELECTOR, "body > div:nth-child(2) > header:nth-child(2) > div:nth-child(3) > div:nth-child(4) > div:nth-child(1) > nav:nth-child(1) > div:nth-child(3) > ul:nth-child(1) > li:nth-child(1) > div:nth-child(2) > ul:nth-child(2) > li:nth-child(1) > div:nth-child(1) > a:nth-child(1)"))
     time.sleep(5)
 
     home_page.subscribe_to_newsletter(invalid_email)
