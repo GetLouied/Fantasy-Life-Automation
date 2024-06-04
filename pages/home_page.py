@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from base_page import BasePage
+import time
 
 class HomePage(BasePage):
     SEARCH_BUTTON = (By.CSS_SELECTOR, ".far.fa-search")
@@ -25,23 +26,62 @@ class HomePage(BasePage):
         email_input.send_keys(email)
         subscribe_button = self.find_element(*self.SUBSCRIBE_BUTTON)
         subscribe_button.click()
+        time.sleep(2)
+
+    def click_link(self, link_selector):
+        link = self.find_element(link_selector)
+        link.click()
 
     def get_confirmation_message(self):
         return self.find_element(*self.SUBSCRIBE_CONFIRMATION).text
+
+        
+    def check_for_validation_error(self):
+        email_input = self.find_element(*self.SUBSCRIBE_EMAIL_INPUT)
+        return email_input.get_attribute("validationMessage")
     
+    def check_responsive_design(self, widths):
+        for width in widths:
+            self.driver.set_window_size(width, 800)
+            self.driver.refresh()
+            
+            try:
+                assert self.driver.find_element(By.CSS_SELECTOR, "body > div:nth-child(2) > header:nth-child(2) > div:nth-child(3) > div:nth-child(4) > div:nth-child(1) > nav:nth-child(1) > div:nth-child(3)").is_displayed(), f"Navigation not displayed at width {width}"
+                print(f"Responsive design check passed for width: {width}")
+            except AssertionError as e:
+                print(f"Responsive design check failed for width {width}: {e}")
+
+
 
     # Quick test to make sure the above works, will be moved to a seperate test file
 if __name__ == "__main__":
 
     driver = BasePage.create_chrome_driver()
+    invalid_email = "123hhh"
+    valid_email = "derienzo_louis@yahoo.com"
 
     home_page = HomePage(driver)
     home_page.click_search()
-    driver.navigate().back()
+    driver.back()
     home_page.click_to_login_page()
-    driver.navigate().back()
-    home_page.subscribe_to_newsletter("derienzo_louis@yahoo.com")
+    driver.back()
+    home_page.click_link((By.CSS_SELECTOR, "body > div:nth-child(2) > header:nth-child(2) > div:nth-child(3) > div:nth-child(4) > div:nth-child(1) > nav:nth-child(1) > div:nth-child(3) > ul:nth-child(1) > li:nth-child(1) > div:nth-child(2) > ul:nth-child(2) > li:nth-child(1) > div:nth-child(1) > a:nth-child(1)"))
+    time.sleep(5)
+
+    home_page.subscribe_to_newsletter(invalid_email)
+    validation_error = home_page.check_for_validation_error()
+    if validation_error:
+        print(f"Validation failed as expected for invalid email: {validation_error}")
+    else:
+        print("Expected validation error for invalid email was not found.")
+    time.sleep(5)
+    
+    home_page.subscribe_to_newsletter(valid_email)
     confirmation_message = home_page.get_confirmation_message()
     print("Confirmation message:", confirmation_message)
+
+    time.sleep(2)
+
+    home_page.check_responsive_design([1200, 992, 768, 576])
 
     driver.quit()
