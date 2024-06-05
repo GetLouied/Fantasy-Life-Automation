@@ -62,7 +62,7 @@ class HomePage(BasePage):
 
         nav_bar, dropdown_links = locate_nav_and_links()
 
-        for i in range(1, len(dropdown_links)):
+        for i in range(len(dropdown_links)):
             try:
                 nav_bar, dropdown_links = locate_nav_and_links()  
                 link = dropdown_links[i]
@@ -83,29 +83,29 @@ class HomePage(BasePage):
 #     valid_email = "derienzo_louis@yahoo.com"
 
 #     home_page = HomePage(driver)
-#     # home_page.click_search()
-#     # driver.back()
-#     # home_page.click_to_login_page()
-#     # driver.back()
-#     # time.sleep(5)
+# #     # home_page.click_search()
+# #     # driver.back()
+# #     # home_page.click_to_login_page()
+# #     # driver.back()
+# #     # time.sleep(5)
 
-#     # home_page.subscribe_to_newsletter(invalid_email)
-#     # validation_error = home_page.check_for_validation_error()
-#     # if validation_error:
-#     #     print(f"Validation failed as expected for invalid email: {validation_error}")
-#     # else:
-#     #     print("Expected validation error for invalid email was not found.")
-#     # time.sleep(5)
+# #     # home_page.subscribe_to_newsletter(invalid_email)
+# #     # validation_error = home_page.check_for_validation_error()
+# #     # if validation_error:
+# #     #     print(f"Validation failed as expected for invalid email: {validation_error}")
+# #     # else:
+# #     #     print("Expected validation error for invalid email was not found.")
+# #     # time.sleep(5)
     
-#     # home_page.subscribe_to_newsletter(valid_email)
-#     # confirmation_message = home_page.get_confirmation_message()
-#     # print("Confirmation message:", confirmation_message)
+# #     # home_page.subscribe_to_newsletter(valid_email)
+# #     # confirmation_message = home_page.get_confirmation_message()
+# #     # print("Confirmation message:", confirmation_message)
 
-#     # time.sleep(2)
+# #     # time.sleep(2)
 
-#     # home_page.check_responsive_design([1200, 992, 768, 576])
+# #     # home_page.check_responsive_design([1200, 992, 768, 576])
 
-#     # Tip: Use Parent_element.find_elements by Tag_name
+# #     # Tip: Use Parent_element.find_elements by Tag_name
 
 #     nav_locator = (By.CSS_SELECTOR, "body > div:nth-child(2) > header:nth-child(2) > div:nth-child(3) > div:nth-child(4) > div:nth-child(1) > nav:nth-child(1) > div:nth-child(3) > ul:nth-child(1) > li:nth-child(1)")
 #     home_page.hover_and_click_dropdown_nav_links(nav_locator)
